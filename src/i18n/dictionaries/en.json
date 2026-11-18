@@ -1,0 +1,669 @@
+{
+  "meta": {
+    "title": "SchemeAlly — Your Ally for Government Benefits",
+    "description": "Discover government welfare schemes for Tamil Nadu and Central Government, understand eligibility rules, prepare required documents, and find your next step."
+  },
+  "brand": {
+    "name": "SchemeAlly",
+    "tagline": "Your ally for benefits",
+    "badge": "AI-assisted · source-grounded guidance"
+  },
+  "nav": {
+    "home": "Home",
+    "discover": "Discover",
+    "opportunities": "My Opportunities",
+    "saved": "Saved",
+    "assistant": "AI Ally",
+    "dashboard": "Dashboard",
+    "profile": "My Profile",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "signOutError": "You could not be signed out. Please try again.",
+    "languageToggleLabel": "Switch language between English and Tamil",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu"
+  },
+  "savedSchemes": {
+    "action": {
+      "save": "Save Scheme",
+      "savedLabel": "Saved",
+      "remove": "Remove",
+      "saved": "Scheme saved.",
+      "removed": "Scheme removed from saved schemes.",
+      "error": "Could not update saved schemes. Please try again."
+    },
+    "page": {
+      "badge": "Your Bookmarked Schemes",
+      "title": "Saved Schemes",
+      "subtitle": "Keep verified schemes together so you can return to their details and official application links.",
+      "loading": "Loading your saved schemes...",
+      "errorTitle": "Unable to load saved schemes",
+      "retry": "Try Again",
+      "emptyTitle": "No saved schemes yet",
+      "emptyDescription": "Save schemes as you explore the catalogue and they will appear here.",
+      "discover": "Discover Schemes",
+      "viewDetails": "View Details",
+      "removeError": "Could not remove this scheme. Please try again.",
+      "jurisdictionState": "Tamil Nadu Government",
+      "jurisdictionCentral": "Central Government"
+    }
+  },
+  "assistantChat": {
+    "badge": "AI Ally · Verified scheme catalogue",
+    "title": "Ask about government schemes",
+    "description": "Get clear answers in English or Tamil, grounded in SchemeAlly's verified scheme information.",
+    "welcome": "Hello! I can help explain schemes, documents, and application steps from the verified catalogue.",
+    "welcomeSubtitle": "Choose a suggested question or ask your own.",
+    "suggestionsLabel": "Try asking",
+    "suggestedQuestions": {
+      "q1": "Which government schemes are available for students?",
+      "q2": "What documents are required for PM-KISAN?",
+      "q3": "Explain Kalaignar Magalir Urimai Thittam.",
+      "q4": "How do I check my scheme eligibility?"
+    },
+    "composerLabel": "Your message",
+    "placeholder": "Ask about a scheme, its documents, or how to apply…",
+    "send": "Send",
+    "sending": "AI Ally is checking the verified scheme information…",
+    "newChat": "New chat",
+    "sourceHeading": "Scheme sources",
+    "officialInformation": "Official information",
+    "applicationPortal": "Application portal",
+    "verifiedOn": "Catalogue verification date",
+    "viewOpportunities": "View My Opportunities",
+    "retry": "Retry",
+    "errors": {
+      "GEMINI_NOT_CONFIGURED": "AI Ally is not configured yet. Please try again later.",
+      "GEMINI_INVALID_KEY": "Gemini rejected the configured API key. Please contact support.",
+      "GEMINI_PERMISSION_DENIED": "The configured Gemini model is not available to this service. Please contact support.",
+      "GEMINI_QUOTA_EXCEEDED": "Gemini's usage limit has been reached. Please try again later.",
+      "GEMINI_MODEL_UNAVAILABLE": "AI Ally's configured Gemini model is unavailable. Please try again later.",
+      "GEMINI_REQUEST_INVALID": "AI Ally's Gemini request could not be accepted. Please contact support.",
+      "GEMINI_EMPTY_RESPONSE": "Gemini returned an empty answer. Please retry your question.",
+      "GEMINI_UNGROUNDED_RESPONSE": "AI Ally could not verify a grounded answer from the catalogue. Please retry or rephrase your question.",
+      "GEMINI_UNAVAILABLE": "AI Ally could not reach Gemini. Please try again.",
+      "MESSAGE_TOO_LONG": "Please keep your message to 1,200 characters or fewer.",
+      "UNAUTHENTICATED": "Please sign in again to use AI Ally.",
+      "CONVERSATION_NOT_FOUND": "This conversation is unavailable. Start a new chat.",
+      "REQUEST_FAILED": "AI Ally could not complete that request. Please try again.",
+      "default": "Your message could not be sent. Please try again."
+    }
+  },
+  "hero": {
+    "badge": "AI-assisted · source-grounded guidance",
+    "headlinePrefix": "Find the government benefits",
+    "headlineAccent": "that fit you.",
+    "supportingText": "Tell SchemeAlly a little about yourself and discover schemes that may suit your situation — with clear reasons, required documents, and the next step.",
+    "primaryCta": "Check My Opportunities",
+    "secondaryCta": "Explore Schemes",
+    "flowSteps": {
+      "profile": "Your Profile",
+      "intelligence": "SchemeAlly Intelligence",
+      "benefits": "Relevant Benefits",
+      "nextSteps": "Your Next Steps"
+    },
+    "workspacePreview": {
+      "headerLabel": "ELIGIBILITY & READINESS WORKSPACE",
+      "title": "Personalized Benefit Evaluation",
+      "statusBadge": "Profile required",
+      "readinessLabel": "Application Readiness",
+      "readinessStatus": "Awaiting profile & documents",
+      "checkItems": {
+        "ruleEngine": "Structured eligibility rules checked against your profile",
+        "jurisdiction": "Central Government & Tamil Nadu state coverage",
+        "explainable": "Condition-by-condition pass or missing criteria breakdown",
+        "documentAlert": "Required document checklist generated per scheme"
+      },
+      "docChipsLabel": "Supported verification checks: Identity · Income · Community · Education",
+      "completeProfileActionButton": "Complete My Profile",
+      "updateProfileActionButton": "Update My Profile",
+      "nextStepTitle": "Your next step",
+      "nextStepBody": "Complete your citizen profile or browse the scheme catalogue to see official eligibility requirements."
+    }
+  },
+  "opportunitiesPreview": {
+    "title": "Your benefit opportunities",
+    "subtitle": "A clearer way to see what may fit your life across Tamil Nadu and Central Government welfare categories",
+    "statusPill": "Catalogue preview",
+    "exploreAction": "Explore",
+    "emptyPrompt": "Sign in and complete your profile to calculate personalized eligibility matches across categories.",
+    "categories": {
+      "education": {
+        "name": "Education",
+        "description": "Scholarships, higher education assurance, and student support"
+      },
+      "financial": {
+        "name": "Financial Support",
+        "description": "Direct benefit transfers, pensions, and social security"
+      },
+      "employment": {
+        "name": "Employment & Skills",
+        "description": "Skill training, artisan support, and livelihood assistance"
+      },
+      "healthcare": {
+        "name": "Healthcare",
+        "description": "Health insurance coverage and maternity welfare schemes"
+      },
+      "agriculture": {
+        "name": "Agriculture",
+        "description": "Farmer income support, crop protection, and farm subsidies"
+      },
+      "womenChild": {
+        "name": "Women & Child Welfare",
+        "description": "Women empowerment, nutrition, and girl child savings"
+      },
+      "housing": {
+        "name": "Housing",
+        "description": "Rural and urban housing assistance for eligible households"
+      },
+      "smallBusiness": {
+        "name": "Small Business Support",
+        "description": "Micro-enterprise credit, street vendor loans, and MSME aid"
+      },
+      "socialWelfare": {
+        "name": "Social Welfare",
+        "description": "Senior citizen, disability, and vulnerable household support"
+      }
+    }
+  },
+  "howItWorks": {
+    "badge": "How SchemeAlly Works",
+    "title": "From complex government circulars to clear next steps",
+    "subtitle": "Every recommendation is driven by deterministic eligibility rules and grounded in verified official government sources.",
+    "steps": {
+      "step1": {
+        "number": "01",
+        "title": "Share basic eligibility details",
+        "description": "Provide only relevant information such as age, state, district, occupation, education, and household income range. No Aadhaar number is required."
+      },
+      "step2": {
+        "number": "02",
+        "title": "Deterministic rule evaluation",
+        "description": "Our structured eligibility engine evaluates your profile against each scheme's conditions and explains which criteria pass, fail, or need more details."
+      },
+      "step3": {
+        "number": "03",
+        "title": "Prepare required documents",
+        "description": "Organize your required certificates, review extracted document fields, and track your application readiness before visiting the official portal."
+      },
+      "step4": {
+        "number": "04",
+        "title": "Apply on the official portal",
+        "description": "Use your prepared checklist and direct official government links to submit your application with confidence."
+      }
+    }
+  },
+  "readinessSection": {
+    "badge": "Eligibility & Document Readiness",
+    "title": "Being eligible is only step one — being document-ready gets you across the finish line",
+    "subtitle": "SchemeAlly separates eligibility calculation from document readiness so you always know both whether you qualify and which certificates you still need to prepare.",
+    "eligibilityCard": {
+      "title": "Deterministic Eligibility Engine",
+      "description": "Evaluates age, residence, income thresholds, education, and category conditions using versioned logical rules — never guesswork.",
+      "outcomesTitle": "Four transparent outcomes:",
+      "outcomes": {
+        "eligible": "Eligible — all configured and required conditions have been evaluated and satisfied.",
+        "notEligible": "Not Eligible — a confirmed mandatory condition fails.",
+        "insufficient": "Insufficient Information — required profile information is missing.",
+        "verification": "Potential Match — basic profile conditions match, but additional scheme-specific conditions require verification."
+      }
+    },
+    "readinessCard": {
+      "title": "Application Readiness Tracker",
+      "description": "Tracks required documents separately from optional ones and alerts you to missing, unreviewed, or expired certificates.",
+      "formulaLabel": "Readiness Formula",
+      "formulaText": "(Satisfied required documents ÷ Total required documents) × 100",
+      "rules": {
+        "rule1": "Only mandatory scheme documents affect your readiness percentage",
+        "rule2": "Documents awaiting your review or past expiry are flagged before you apply",
+        "rule3": "Direct links to official government portals are always provided"
+      }
+    }
+  },
+  "aiAllySection": {
+    "badge": "Meet AI Ally",
+    "title": "Ask questions in English or Tamil, grounded in official scheme sources",
+    "subtitle": "AI Ally helps you understand complex scheme rules, required documents, and application steps in plain language — while citing the official source.",
+    "capabilities": {
+      "explain": "Explains scheme benefits and eligibility rules in simple Tamil or English",
+      "missing": "Identifies what profile details or documents are still missing",
+      "citations": "Provides official government source references for every explanation",
+      "safety": "Never invents schemes, deadlines, or promises government approval"
+    },
+    "cta": "Open AI Ally",
+    "samplePromptLabel": "Example questions you can ask AI Ally:",
+    "samplePrompts": {
+      "q1": "What documents do I need to prepare for higher education scholarship schemes in Tamil Nadu?",
+      "q2": "Why does a scheme show 'More information required' for my profile?",
+      "q3": "இந்த திட்டத்திற்கு வருமான சான்றிதழ் கட்டாயமா?"
+    }
+  },
+  "trustPillars": {
+    "privacy": {
+      "title": "Your privacy matters",
+      "description": "No Aadhaar required. You decide what to save and can update your profile anytime."
+    },
+    "explainable": {
+      "title": "Explainable by design",
+      "description": "See why a scheme may fit, what is missing, and what to do next."
+    },
+    "readyForAction": {
+      "title": "Ready for action",
+      "description": "Get a document checklist and always open the verified official source."
+    }
+  },
+  "auth": {
+    "sessionRedirecting": "Your session changed. Redirecting to a safe page...",
+    "login": {
+      "badge": "Citizen Account",
+      "title": "Sign in to SchemeAlly",
+      "subtitle": "Access your eligibility profile, saved schemes, document readiness checklist, and application tracker.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPasswordLink": "Forgot password?",
+      "submitButton": "Sign in",
+      "submittingButton": "Signing in...",
+      "noAccountPrompt": "Don't have a SchemeAlly account?",
+      "registerLink": "Create citizen account",
+      "callbackError": "Authentication link expired or could not be verified. Please sign in or request a new link."
+    },
+    "register": {
+      "badge": "Citizen Registration",
+      "title": "Create your SchemeAlly account",
+      "subtitle": "Start checking your eligibility across Tamil Nadu and Central Government welfare schemes.",
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "Enter your full name",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password (minimum 8 characters)",
+      "passwordPlaceholder": "Create a strong password",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "privacyNotice": "We never ask for your Aadhaar number. Your profile data is protected by row-level security and used solely to evaluate scheme eligibility.",
+      "submitButton": "Create Account",
+      "submittingButton": "Creating account...",
+      "hasAccountPrompt": "Already have an account?",
+      "loginLink": "Sign in",
+      "checkEmailTitle": "Verify your email address",
+      "checkEmailDescription": "We sent a confirmation link to your email address. Click the link in your inbox to activate your account and complete your eligibility profile."
+    },
+    "forgotPassword": {
+      "badge": "Password Recovery",
+      "title": "Reset your password",
+      "subtitle": "Enter the email address associated with your SchemeAlly account and we will send a secure password reset link.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "submitButton": "Send Reset Link",
+      "submittingButton": "Sending link...",
+      "sentTitle": "Check your email for the reset link",
+      "sentDescription": "If an account exists for that email address, a password recovery link has been sent. Follow the link to choose a new password.",
+      "backToLogin": "Back to Sign in"
+    },
+    "resetPassword": {
+      "badge": "Security Update",
+      "title": "Choose a new password",
+      "subtitle": "Enter and confirm your new password below to secure your SchemeAlly account.",
+      "passwordLabel": "New password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "confirmPasswordLabel": "Confirm new password",
+      "confirmPasswordPlaceholder": "Re-enter new password",
+      "submitButton": "Update Password",
+      "submittingButton": "Updating password...",
+      "successTitle": "Password updated successfully",
+      "successDescription": "Your password has been changed. You can now continue to your citizen dashboard.",
+      "goToDashboard": "Continue to Dashboard"
+    }
+  },
+  "profilePage": {
+    "badge": "Citizen Eligibility Profile",
+    "title": "Your Eligibility Profile",
+    "subtitle": "Provide only the details relevant to government welfare schemes. Every field helps our deterministic engine calculate accurate eligibility matches.",
+    "privacyBanner": "Privacy guarantee: Do not enter Aadhaar numbers. Sensitive fields like social category or disability status are optional and only used when required by specific schemes.",
+    "completionLabel": "Core Eligibility Profile Completion",
+    "onboardingCompleteBadge": "Ready for eligibility matching",
+    "onboardingIncompleteBadge": "Add core details to unlock full matching",
+    "derivedAgeLabel": "Calculated Age",
+    "yearsOld": "years",
+    "notProvided": "Not provided",
+    "saveButton": "Save Eligibility Profile",
+    "savingButton": "Saving changes...",
+    "savedSuccess": "Your eligibility profile has been saved.",
+    "goToDashboard": "Go to Dashboard",
+    "sections": {
+      "personal": {
+        "title": "1. Basic Personal Information",
+        "reason": "Why we ask: Many education, maternity, senior citizen, and women welfare schemes depend on age and gender criteria."
+      },
+      "residence": {
+        "title": "2. Residence & Jurisdiction",
+        "reason": "Why we ask: Determines whether Tamil Nadu state schemes, district-specific initiatives, and Central Government schemes apply to you."
+      },
+      "educationEmployment": {
+        "title": "3. Education & Occupation",
+        "reason": "Why we ask: Scholarships, skill training, artisan support, and employment schemes match against student and employment status."
+      },
+      "householdIncome": {
+        "title": "4. Household & Financial Context",
+        "reason": "Why we ask: Most government financial assistance and subsidy schemes specify an annual household income ceiling."
+      },
+      "additionalEligibility": {
+        "title": "5. Optional Category, Agriculture & Livelihood Details",
+        "reason": "Why we ask: Optional fields used only for schemes specifically supporting farmers, small business owners, Persons with Disabilities, or specific social categories."
+      }
+    },
+    "fields": {
+      "fullName": "Full name",
+      "fullNamePlaceholder": "Your name as on certificates",
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "state": "State / Union Territory",
+      "district": "District",
+      "occupation": "Primary occupation (optional)",
+      "occupationPlaceholder": "e.g., Student, Weaver, Agricultural worker, Shop owner",
+      "educationLevel": "Highest education level",
+      "employmentStatus": "Current employment status",
+      "isStudent": "Are you currently enrolled as a student?",
+      "annualHouseholdIncome": "Annual household income (₹ per year)",
+      "annualHouseholdIncomePlaceholder": "e.g., 120000",
+      "householdSize": "Household size (number of family members)",
+      "householdSizePlaceholder": "e.g., 4",
+      "socialCategory": "Social category (optional & voluntary)",
+      "isFarmer": "Are you a farmer / agricultural household?",
+      "landHoldingAcres": "Agricultural land holding in acres (if applicable)",
+      "landHoldingAcresPlaceholder": "e.g., 2.5",
+      "isBusinessOwner": "Do you own a micro/small business or street vending activity?",
+      "hasDisability": "Person with Disability (PwD) status (optional)",
+      "preferredLanguage": "Preferred interface & AI Ally language"
+    },
+    "options": {
+      "selectPlaceholder": "Select an option",
+      "boolean": {
+        "unset": "Not specified",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "gender": {
+        "female": "Female",
+        "male": "Male",
+        "transgender": "Transgender",
+        "other": "Other",
+        "prefer_not_to_say": "Prefer not to say"
+      },
+      "education": {
+        "below_10th": "Below Class 10",
+        "10th_pass": "Class 10 (SSLC) Pass",
+        "12th_pass": "Class 12 (HSC) Pass",
+        "diploma": "ITI / Polytechnic Diploma",
+        "undergraduate": "Undergraduate Degree",
+        "postgraduate": "Postgraduate Degree",
+        "doctorate": "Doctorate / PhD",
+        "other": "Other"
+      },
+      "employment": {
+        "student": "Student",
+        "employed": "Salaried / Employed",
+        "self_employed": "Self-Employed / Artisan / Vendor",
+        "daily_wage": "Daily Wage / Unorganized Worker",
+        "unemployed": "Seeking Employment / Unemployed",
+        "homemaker": "Homemaker",
+        "retired": "Senior Citizen / Retired"
+      },
+      "socialCategory": {
+        "general": "General / OC",
+        "bc": "Backward Class (BC)",
+        "mbc": "Most Backward Class / DNC (MBC)",
+        "obc": "Other Backward Class (OBC)",
+        "sc": "Scheduled Caste (SC / SCA)",
+        "st": "Scheduled Tribe (ST)",
+        "prefer_not_to_say": "Prefer not to say"
+      }
+    }
+  },
+  "dashboardShell": {
+    "welcomePrefix": "Welcome,",
+    "defaultCitizenName": "Citizen",
+    "subtitle": "Your personalized government benefit preparation workspace",
+    "profileCardTitle": "Eligibility Profile Status",
+    "updateProfileCta": "Update Eligibility Profile",
+    "completeOnboardingPrompt": "Complete your core profile fields (date of birth, state, and annual household income) so SchemeAlly can evaluate schemes for you.",
+    "profileReadyPrompt": "Your core eligibility profile is active. Browse schemes or check your opportunities.",
+    "evaluationSummaryTitle": "Deterministic Eligibility Overview",
+    "evaluationSummarySubtitle": "Real-time evaluation of your citizen profile against all active, source-checked government schemes.",
+    "stats": {
+      "eligibleLabel": "Eligible",
+      "eligibleHint": "All required conditions satisfied",
+      "potentialMatchLabel": "Potential Matches",
+      "potentialMatchHint": "Basic profile matches; scheme-specific verification needed",
+      "insufficientLabel": "More Info Needed",
+      "insufficientHint": "Add missing profile fields to evaluate",
+      "notEligibleLabel": "Not Eligible",
+      "notEligibleHint": "A mandatory profile condition is not met"
+    },
+    "topOpportunitiesTitle": "Your Top Matched Opportunities",
+    "topOpportunitiesSubtitle": "Schemes where your basic profile conditions match. Review additional scheme-specific verification requirements before applying.",
+    "viewAllOpportunitiesCta": "View All Evaluated Schemes",
+    "noMatchesYetTitle": "Complete your profile to unlock personalized matches",
+    "noMatchesYetDescription": "Several schemes require additional profile fields (such as date of birth, state, gender, education, or household income) before basic eligibility can be determined."
+  },
+  "discoverPage": {
+    "badge": "Verified Scheme Catalogue",
+    "title": "Discover Government Welfare Schemes",
+    "subtitle": "Explore source-verified Tamil Nadu Government and Central Government welfare schemes. Every scheme includes structured eligibility criteria, required documents, and direct official links.",
+    "searchPlaceholder": "Search by scheme name, department, or keyword (English / தமிழ்)...",
+    "searchAriaLabel": "Search government schemes",
+    "clearSearch": "Clear search",
+    "clearAllFilters": "Reset filters",
+    "filters": {
+      "levelLabel": "Government Level",
+      "levelAll": "All Jurisdictions",
+      "levelState": "Tamil Nadu Govt",
+      "levelCentral": "Central Govt",
+      "stateLabel": "State Coverage",
+      "stateAll": "All Coverage",
+      "stateTN": "Tamil Nadu Specific",
+      "statePanIndia": "All India (Central)",
+      "categoryLabel": "Scheme Category",
+      "categoryAll": "All Categories",
+      "audienceLabel": "Target Audience",
+      "audienceAll": "All Citizens",
+      "audiences": {
+        "students": "Students",
+        "women": "Women",
+        "farmers": "Farmers",
+        "families": "Families",
+        "senior_citizens": "Senior Citizens",
+        "job_seekers": "Job Seekers & Youth",
+        "small_business": "Small Business & Vendors",
+        "artisans": "Traditional Artisans"
+      }
+    },
+    "resultsSummary": {
+      "showing": "Showing",
+      "of": "of",
+      "verifiedSchemes": "verified schemes"
+    },
+    "card": {
+      "verifiedBadge": "Official Source Link Checked",
+      "verifiedOnPrefix": "Catalogue source link checked on",
+      "tnGovBadge": "Tamil Nadu Govt",
+      "centralGovBadge": "Central Govt",
+      "keyBenefitLabel": "Key Benefit",
+      "mandatoryDocsSuffix": "mandatory documents",
+      "viewDetailsCta": "View Scheme Details",
+      "officialPortalCta": "Official Portal"
+    },
+    "noMatches": {
+      "badge": "No Matching Schemes",
+      "title": "No verified schemes match your current filters",
+      "description": "Try clearing your search term or switching the category, government level, or audience filter to view all verified schemes.",
+      "resetButton": "Show All Verified Schemes"
+    },
+    "error": {
+      "title": "Unable to load scheme catalogue",
+      "description": "A temporary error occurred while retrieving verified schemes. Please try again.",
+      "retryButton": "Try Again"
+    },
+    "verificationNotice": "Catalogue source status ('Official Source Link Checked') indicates only that the scheme summary and official portal link were checked against a government source on the listed date. It is not a guarantee that every applicant-specific eligibility condition has been checked for you."
+  },
+  "schemeDetail": {
+    "backToCatalogue": "Back to Scheme Catalogue",
+    "verifiedSourceBadge": "Official Source Link Checked",
+    "verifiedSourceScopeNote": "This status indicates only that the scheme summary and official portal link were checked against an official source on the listed date. It does not guarantee that every applicant-specific eligibility condition has been checked.",
+    "lastVerifiedLabel": "Last verified on",
+    "tnGovernment": "Government of Tamil Nadu",
+    "centralGovernment": "Government of India (Central)",
+    "stateCoverageTN": "Tamil Nadu (State Coverage)",
+    "stateCoverageAll": "All India (Available in Tamil Nadu)",
+    "departmentLabel": "Administering Department / Ministry",
+    "primaryApplyCta": "Apply on Official Government Portal",
+    "officialSourceCta": "View Official Source Guidelines",
+    "checkProfileCta": "Update My Eligibility Profile",
+    "sections": {
+      "benefitsTitle": "Scheme Benefits & Financial Support",
+      "overviewTitle": "Detailed Scheme Overview",
+      "eligibilityTitle": "Structured Eligibility Conditions",
+      "eligibilitySubtitle": "Evaluated deterministically by SchemeAlly using versioned rule logic:",
+      "ruleVersionPrefix": "Rule Version",
+      "basicProfileConditionsTitle": "1. Basic Profile Conditions (Checked Against Your Profile)",
+      "logicalAllRequired": "All of the following conditions must be satisfied (AND)",
+      "logicalAnyRequired": "At least one of the following condition groups must be satisfied (OR)",
+      "groupAndTag": "Required (AND)",
+      "groupOrTag": "Alternative (OR)",
+      "additionalVerificationTitle": "2. Additional Scheme-Specific Conditions (Require Official Verification)",
+      "additionalVerificationSubtitle": "Matching the basic profile conditions above produces a Potential Match — never an automatic Eligible guarantee while these mandatory scheme-specific conditions remain unverified:",
+      "additionalVerificationTag": "Requires Verification",
+      "outcomesGuideTitle": "How SchemeAlly Classifies Eligibility Outcomes",
+      "outcomeEligible": "Eligible — all configured and required conditions have been evaluated and satisfied.",
+      "outcomePotentialMatch": "Potential Match — basic profile conditions match, but additional scheme-specific conditions require verification.",
+      "outcomeNotEligible": "Not Eligible — a confirmed mandatory condition fails.",
+      "outcomeInsufficient": "Insufficient Information — required profile information is missing.",
+      "yourEvaluationTitle": "Your Profile Evaluation Result",
+      "passedConditionsHeading": "Basic profile conditions satisfied",
+      "failedConditionsHeading": "Mandatory conditions not met",
+      "missingConditionsHeading": "Required profile details missing",
+      "unverifiedConditionsHeading": "Additional scheme-specific conditions requiring verification before applying",
+      "updateProfileToCompleteCta": "Complete Missing Profile Fields",
+      "signInToEvaluateTitle": "Sign in to check your personal eligibility for this scheme",
+      "signInToEvaluateDescription": "Sign in with your citizen account and complete your eligibility profile so SchemeAlly can evaluate these conditions against your details and highlight what requires verification.",
+      "signInToEvaluateCta": "Sign in to Evaluate",
+      "registerToEvaluateCta": "Create Citizen Account",
+      "eligibilityDisclaimer": "Final eligibility verification is performed by the respective government authority using official certificates.",
+      "documentsTitle": "Required Documents Checklist",
+      "documentsSubtitle": "Prepare these certificates before submitting your application on the official portal:",
+      "mandatoryBadge": "Mandatory",
+      "optionalBadge": "Optional / Conditional",
+      "unexpiredRequiredBadge": "Must be currently valid (unexpired)",
+      "noDocumentsConfigured": "No document requirements configured.",
+      "stepsTitle": "Step-by-Step Application Procedure",
+      "instructionsTitle": "Official Application Channel Summary",
+      "sourcesTitle": "Official Government Sources & Verification Record",
+      "sourceVerifiedOn": "Verified on",
+      "openSourceLink": "Open Official Link"
+    },
+    "notFound": {
+      "badge": "Scheme Not Found",
+      "title": "This scheme is unavailable or has not been verified",
+      "description": "SchemeAlly only displays active schemes verified against official government sources. The requested scheme link may be invalid, unverified, or archived.",
+      "backToDiscover": "Browse Verified Schemes",
+      "backToHome": "Return to Home"
+    },
+    "error": {
+      "title": "Unable to load scheme details",
+      "description": "A temporary error occurred while loading this scheme. Please try again or return to the scheme catalogue.",
+      "retryButton": "Try Again"
+    }
+  },
+  "opportunitiesPage": {
+    "badge": "Personalized Eligibility Workspace",
+    "title": "My Scheme Opportunities",
+    "subtitle": "Deterministic evaluation of your citizen profile across all 18 source-checked Tamil Nadu and Central Government schemes.",
+    "safetyNotice": "Product safety rule: SchemeAlly never marks a scheme as 'Eligible' solely from basic profile fields when additional scheme-specific conditions (such as school EMIS history, ration card head-of-household status, PICME registration, or land revenue records) still require verification. Those schemes are classified as 'Potential Match'.",
+    "onboardingBannerTitle": "Complete your core eligibility profile for fuller evaluation",
+    "onboardingBannerDescription": "Some schemes currently show 'Insufficient Information' because core profile fields (such as date of birth, state, gender, education, or annual household income) are not yet filled in.",
+    "onboardingBannerCta": "Complete My Profile",
+    "tabs": {
+      "all": "All Evaluated",
+      "potentialMatch": "Potential Match",
+      "eligible": "Eligible",
+      "insufficient": "Insufficient Information",
+      "notEligible": "Not Eligible"
+    },
+    "card": {
+      "passedHeading": "Matching profile conditions",
+      "failedHeading": "Conditions not met",
+      "missingHeading": "Missing profile information",
+      "unverifiedHeading": "Additional scheme-specific conditions requiring official verification",
+      "viewSchemeCta": "View Full Scheme & Documents",
+      "updateProfileCta": "Add Missing Profile Info",
+      "officialPortalCta": "Official Portal"
+    },
+    "emptyTab": {
+      "title": "No schemes in this outcome category",
+      "description": "Switch to another outcome tab above or update your eligibility profile to re-evaluate all schemes.",
+      "showAllButton": "Show All Evaluated Schemes"
+    },
+    "error": {
+      "title": "Unable to evaluate scheme opportunities",
+      "description": "A temporary error occurred while evaluating your profile against the scheme catalogue. Please try again.",
+      "retryButton": "Try Again"
+    }
+  },
+  "emptyStates": {
+    "discover": {
+      "badge": "Scheme Catalogue",
+      "title": "Verified Government Scheme Catalogue",
+      "description": "The database-driven catalogue of verified Tamil Nadu and Central Government schemes is being connected. No fabricated or placeholder schemes are displayed.",
+      "primaryAction": "Back to Home",
+      "secondaryAction": "Read Verification Policy"
+    },
+    "opportunities": {
+      "badge": "My Opportunities",
+      "title": "Personalized Eligibility Recommendations",
+      "description": "Complete your citizen profile to evaluate your eligibility against verified government schemes using our deterministic rule engine.",
+      "primaryAction": "Edit Eligibility Profile",
+      "secondaryAction": "Explore Scheme Categories"
+    },
+    "saved": {
+      "badge": "Saved Schemes",
+      "title": "No saved schemes yet",
+      "description": "Save verified government schemes while browsing the catalogue to track their required documents and official application links in one place.",
+      "primaryAction": "Browse Schemes",
+      "secondaryAction": "Back to Dashboard"
+    },
+    "assistant": {
+      "badge": "AI Ally Assistant",
+      "title": "Source-Grounded Bilingual Scheme Assistant",
+      "description": "AI Ally connects to verified scheme documents and our deterministic eligibility engine to answer your questions in English and Tamil with official citations.",
+      "primaryAction": "Explore Schemes",
+      "secondaryAction": "Read Trust Policy"
+    },
+    "auth": {
+      "badge": "Citizen Account",
+      "title": "Sign in to SchemeAlly",
+      "description": "Secure authentication with Supabase Auth allows you to save your eligibility profile, manage required documents, and track your application preparation.",
+      "primaryAction": "Return to Home",
+      "secondaryAction": "Privacy Policy"
+    }
+  },
+  "legal": {
+    "trustTitle": "Information Sources & Verification Policy",
+    "trustIntro": "SchemeAlly only publishes schemes backed by official Central Government and Tamil Nadu Government sources with explicit verification dates. AI Ally and eligibility rules never replace official government scrutiny.",
+    "privacyTitle": "Privacy Policy",
+    "privacyIntro": "We collect only the minimum profile details necessary to evaluate scheme eligibility. We do not require raw Aadhaar numbers, and uploaded documents are stored in private, access-controlled storage.",
+    "termsTitle": "Terms & Conditions",
+    "termsIntro": "SchemeAlly is an informational discovery and preparation assistant. Final eligibility, benefit disbursement, and application approval rest solely with the respective government department."
+  },
+  "footer": {
+    "disclaimer": "SchemeAlly provides informational guidance based on available scheme information. Final eligibility, benefits and approval are determined by the relevant government authority. Always verify the latest requirements on the official government source before applying.",
+    "badge": "AI-assisted · source-grounded guidance",
+    "links": {
+      "discover": "Discover Schemes",
+      "trust": "Verification Policy",
+      "privacy": "Privacy Policy",
+      "terms": "Terms & Conditions"
+    },
+    "copyright": "SchemeAlly — Built for Indian citizens with English & Tamil support."
+  }
+}
