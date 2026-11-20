@@ -65,7 +65,7 @@ export async function updateAuthenticatedCitizenProfile(
   }
 
   const repo = new ProfileRepository(supabase);
-  const updatedProfile = await repo.upsertByUserId(user.id, parsed.data);
+  const updatedProfile = await repo.updateByUserId(user.id, parsed.data);
 
   return {
     userId: user.id,

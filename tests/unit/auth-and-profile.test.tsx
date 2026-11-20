@@ -35,12 +35,36 @@ import {
 } from "@/infrastructure/supabase/middleware";
 import { LanguageProvider } from "@/components/layout/LanguageProvider";
 import { CitizenProfileForm } from "@/components/profile/CitizenProfileForm";
+import LoginPage from "@/app/(auth)/login/page";
 
 describe("Phase 3 — Authentication & Citizen Profile Validation and Services", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     window.localStorage.clear();
   });
+
+  const emptyProfile: ProfileRow = {
+    id: "11111111-1111-4111-8111-111111111111",
+    full_name: null,
+    date_of_birth: null,
+    gender: null,
+    state: null,
+    district: null,
+    occupation: null,
+    education_level: null,
+    employment_status: null,
+    is_student: null,
+    annual_household_income: null,
+    household_size: null,
+    social_category: null,
+    is_farmer: null,
+    land_holding_acres: null,
+    is_business_owner: null,
+    has_disability: null,
+    preferred_language: "en",
+    created_at: "2026-11-15T00:00:00Z",
+    updated_at: "2026-11-15T00:00:00Z",
+  };
 
   it("validates Login, Register, ForgotPassword, and ResetPassword schemas and blocks Aadhaar numbers in names", () => {
     expect(
@@ -90,6 +114,21 @@ describe("Phase 3 — Authentication & Citizen Profile Validation and Services",
     expect(sanitizeRedirectPath("//evil.example.com")).toBe("/dashboard");
     expect(sanitizeRedirectPath("/\\evil.example.com")).toBe("/dashboard");
     expect(sanitizeRedirectPath(null)).toBe("/dashboard");
+  });
+
+  it("allows citizens to reveal and hide their login password", () => {
+    render(
+      <LanguageProvider>
+        <LoginPage />
+      </LanguageProvider>
+    );
+
+    const password = screen.getByLabelText("Password");
+    expect(password).toHaveAttribute("type", "password");
+    fireEvent.click(screen.getByRole("button", { name: "Show password" }));
+    expect(password).toHaveAttribute("type", "text");
+    fireEvent.click(screen.getByRole("button", { name: "Hide password" }));
+    expect(password).toHaveAttribute("type", "password");
   });
 
   it("identifies protected citizen routes and guest-only auth routes accurately", () => {
@@ -152,6 +191,18 @@ describe("Phase 3 — Authentication & Citizen Profile Validation and Services",
     expect(emptySummary.percentage).toBe(0);
     expect(emptySummary.isOnboardingComplete).toBe(false);
 
+    const optionalFieldsOnly = calculateProfileCompletion({
+      occupation: "Farmer",
+      household_size: 4,
+      social_category: "bc",
+      is_farmer: true,
+      land_holding_acres: 2,
+      is_business_owner: false,
+      has_disability: false,
+      preferred_language: "ta",
+    });
+    expect(optionalFieldsOnly.percentage).toBe(0);
+
     const completeSummary = calculateProfileCompletion(
       {
         full_name: "Meenakshi S",
@@ -169,6 +220,45 @@ describe("Phase 3 — Authentication & Citizen Profile Validation and Services",
     expect(completeSummary.derivedAge).toBe(22);
     expect(completeSummary.isOnboardingComplete).toBe(true);
     expect(completeSummary.missingCoreFields).toHaveLength(0);
+  });
+
+  it("starts a newly opened profile at 0% without selecting a default state", () => {
+    const { container } = render(
+      <LanguageProvider>
+        <CitizenProfileForm initialProfile={emptyProfile} />
+      </LanguageProvider>
+    );
+
+    expect(screen.getByText("0%")).toBeInTheDocument();
+    expect(container.querySelector<HTMLSelectElement>("#profile-state")?.value)
+      .toBe("");
+  });
+
+  it("shows a save error instead of success when the API rejects the update", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ error: "Profile update failed." }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      })
+    );
+
+    render(
+      <LanguageProvider>
+        <CitizenProfileForm initialProfile={emptyProfile} />
+      </LanguageProvider>
+    );
+
+    fireEvent.click(
+      screen.getByRole("button", { name: /Save Eligibility Profile/i })
+    );
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Profile update failed."
+    );
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+    expect(mockRefresh).not.toHaveBeenCalled();
+
+    fetchSpy.mockRestore();
   });
 
   it("renders CitizenProfileForm, displays derived age, and submits validated updates to /api/profile", async () => {
@@ -207,7 +297,7 @@ describe("Phase 3 — Authentication & Citizen Profile Validation and Services",
       )
     );
 
-    render(
+    const { unmount } = render(
       <LanguageProvider>
         <CitizenProfileForm
           initialProfile={initialProfile}
@@ -230,6 +320,25 @@ describe("Phase 3 — Authentication & Citizen Profile Validation and Services",
         "/api/profile",
         expect.objectContaining({
           method: "PUT",
+          body: JSON.stringify({
+            full_name: "Karthik R",
+            date_of_birth: "2000-01-15",
+            gender: "male",
+            state: "Tamil Nadu",
+            district: "Chennai",
+            occupation: "Student",
+            education_level: "undergraduate",
+            employment_status: "student",
+            is_student: true,
+            annual_household_income: 120000,
+            household_size: 4,
+            social_category: null,
+            is_farmer: false,
+            land_holding_acres: null,
+            is_business_owner: false,
+            has_disability: false,
+            preferred_language: "en",
+          }),
         })
       );
     });
@@ -237,6 +346,28 @@ describe("Phase 3 — Authentication & Citizen Profile Validation and Services",
     expect(
       await screen.findByText(/Your eligibility profile has been saved\./i)
     ).toBeInTheDocument();
+    expect(
+      screen
+        .getAllByRole("link", { name: /Go to Dashboard/i })
+        .every((link) => link.getAttribute("href") === "/dashboard")
+    ).toBe(true);
+    expect(mockRefresh).toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
+
+    unmount();
+    render(
+      <LanguageProvider>
+        <CitizenProfileForm
+          initialProfile={initialProfile}
+          userEmail="karthik@example.com"
+        />
+      </LanguageProvider>
+    );
+    expect(screen.getByText("100%")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Karthik R")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("2000-01-15")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Chennai")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("120000")).toBeInTheDocument();
 
     fetchSpy.mockRestore();
   });

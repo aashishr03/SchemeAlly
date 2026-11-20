@@ -440,7 +440,11 @@ describe("Phase 4 — Scheme Catalogue Validation, Filtering, Discovery & Detail
         <Navbar />
         <SchemeCatalogClient
           categories={MOCK_CATEGORIES}
-          allSchemes={MOCK_SCHEMES}
+          allSchemes={MOCK_SCHEMES.map((scheme, index) => ({
+            ...scheme,
+            last_verified_at:
+              index === 0 ? "2025-11-15T00:00:00Z" : "2026-11-15T00:00:00Z",
+          }))}
           initialFilters={{
             q: "",
             category: "all",
@@ -461,6 +465,17 @@ describe("Phase 4 — Scheme Catalogue Validation, Filtering, Discovery & Detail
     expect(
       screen.getByTestId("scheme-card-pm-kisan-samman-nidhi")
     ).toBeInTheDocument();
+    const advancedFilters = screen.getByText("More filters").closest("details");
+    expect(advancedFilters).not.toHaveAttribute("open");
+    fireEvent.click(screen.getByText("More filters"));
+    expect(advancedFilters).toHaveAttribute("open");
+    fireEvent.change(screen.getByRole("combobox", { name: "Sort by" }), {
+      target: { value: "recent" },
+    });
+    expect(screen.getAllByTestId(/^scheme-card-/)[0]).toHaveAttribute(
+      "data-testid",
+      "scheme-card-pm-kisan-samman-nidhi"
+    );
 
     // Filter by Central Govt button
     const centralBtn = screen.getByRole("button", { name: "Central Govt" });
@@ -590,6 +605,13 @@ describe("Phase 4 — Scheme Catalogue Validation, Filtering, Discovery & Detail
     expect(
       screen.getByText("Pudhumai Penn Official Portal — Govt of Tamil Nadu")
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("navigation", { name: "On this page" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Required Documents Checklist" })
+    ).toHaveAttribute("href", "#documents");
+    expect(document.getElementById("eligibility")).toBeInTheDocument();
 
     // Switch language to Tamil
     const langBtn = screen.getByRole("button", {

@@ -21,7 +21,8 @@
     "signOutError": "You could not be signed out. Please try again.",
     "languageToggleLabel": "Switch language between English and Tamil",
     "openMenu": "Open navigation menu",
-    "closeMenu": "Close navigation menu"
+    "closeMenu": "Close navigation menu",
+    "mobileNavigationLabel": "Mobile navigation"
   },
   "savedSchemes": {
     "action": {
@@ -96,6 +97,9 @@
     "supportingText": "Tell SchemeAlly a little about yourself and discover schemes that may suit your situation — with clear reasons, required documents, and the next step.",
     "primaryCta": "Check My Opportunities",
     "secondaryCta": "Explore Schemes",
+    "searchLabel": "Search government schemes",
+    "searchPlaceholder": "Search schemes by name or keyword",
+    "searchSubmit": "Search",
     "flowSteps": {
       "profile": "Your Profile",
       "intelligence": "SchemeAlly Intelligence",
@@ -106,8 +110,10 @@
       "headerLabel": "ELIGIBILITY & READINESS WORKSPACE",
       "title": "Personalized Benefit Evaluation",
       "statusBadge": "Profile required",
+      "profileReadyStatus": "Core profile ready",
       "readinessLabel": "Application Readiness",
       "readinessStatus": "Awaiting profile & documents",
+      "profileReadyReadinessStatus": "Core details added · review scheme requirements",
       "checkItems": {
         "ruleEngine": "Structured eligibility rules checked against your profile",
         "jurisdiction": "Central Government & Tamil Nadu state coverage",
@@ -254,6 +260,8 @@
   },
   "auth": {
     "sessionRedirecting": "Your session changed. Redirecting to a safe page...",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "login": {
       "badge": "Citizen Account",
       "title": "Sign in to SchemeAlly",
@@ -321,6 +329,7 @@
     "title": "Your Eligibility Profile",
     "subtitle": "Provide only the details relevant to government welfare schemes. Every field helps our deterministic engine calculate accurate eligibility matches.",
     "privacyBanner": "Privacy guarantee: Do not enter Aadhaar numbers. Sensitive fields like social category or disability status are optional and only used when required by specific schemes.",
+    "completionGuidance": "Date of birth, state, and annual household income are needed for initial eligibility matching. Other profile details can improve the results; sensitive details remain optional.",
     "completionLabel": "Core Eligibility Profile Completion",
     "onboardingCompleteBadge": "Ready for eligibility matching",
     "onboardingIncompleteBadge": "Add core details to unlock full matching",
@@ -455,6 +464,9 @@
     "searchAriaLabel": "Search government schemes",
     "clearSearch": "Clear search",
     "clearAllFilters": "Reset filters",
+    "sortLabel": "Sort by",
+    "sortByName": "Scheme name",
+    "sortByRecent": "Recently verified",
     "filters": {
       "levelLabel": "Government Level",
       "levelAll": "All Jurisdictions",
@@ -468,6 +480,7 @@
       "categoryAll": "All Categories",
       "audienceLabel": "Target Audience",
       "audienceAll": "All Citizens",
+      "advancedFilters": "More filters",
       "audiences": {
         "students": "Students",
         "women": "Women",
@@ -521,6 +534,7 @@
     "officialSourceCta": "View Official Source Guidelines",
     "checkProfileCta": "Update My Eligibility Profile",
     "sections": {
+      "sectionNavigationLabel": "On this page",
       "benefitsTitle": "Scheme Benefits & Financial Support",
       "overviewTitle": "Detailed Scheme Overview",
       "eligibilityTitle": "Structured Eligibility Conditions",

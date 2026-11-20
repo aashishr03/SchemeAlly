@@ -44,4 +44,51 @@ export class ProfileRepository {
 
     return data;
   }
+
+  async updateByUserId(
+    authenticatedUserId: string,
+    updates: CitizenProfileUpdateInput
+  ): Promise<ProfileRow> {
+    if (Object.keys(updates).length === 0) {
+      const existingProfile = await this.getByUserId(authenticatedUserId);
+      return existingProfile ?? this.insertByUserId(authenticatedUserId, updates);
+    }
+
+    const { data, error } = await this.supabase
+      .from("profiles")
+      .update(updates)
+      .eq("id", authenticatedUserId)
+      .select("*")
+      .maybeSingle();
+
+    if (error) {
+      throw new Error(`Failed to save citizen profile: ${error.message}`);
+    }
+
+    return data ?? this.insertByUserId(authenticatedUserId, updates);
+  }
+
+  private async insertByUserId(
+    authenticatedUserId: string,
+    updates: CitizenProfileUpdateInput
+  ): Promise<ProfileRow> {
+    const payload: Database["public"]["Tables"]["profiles"]["Insert"] = {
+      id: authenticatedUserId,
+      ...updates,
+    };
+
+    const { data, error } = await this.supabase
+      .from("profiles")
+      .insert(payload)
+      .select("*")
+      .single();
+
+    if (error || !data) {
+      throw new Error(
+        `Failed to save citizen profile: ${error?.message ?? "Unknown error"}`
+      );
+    }
+
+    return data;
+  }
 }

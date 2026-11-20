@@ -78,6 +78,10 @@ describe("Phase 1 — Layout, Navigation, and Landing Page", () => {
     expect(screen.getByText(/that fit you\./i)).toBeInTheDocument();
     expect(screen.getAllByText(/Check My Opportunities/i).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText(/Explore Schemes/i)).toBeInTheDocument();
+    expect(screen.getByRole("search")).toHaveAttribute("action", "/discover");
+    expect(
+      screen.getByRole("searchbox", { name: "Search government schemes" })
+    ).toHaveAttribute("name", "q");
 
     // Categories & Trust Pillars
     expect(screen.getByText("Education")).toBeInTheDocument();
