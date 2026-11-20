@@ -10,7 +10,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     <div
       ref={ref}
       className={cn(
-        "rounded-3xl text-[#0b172a] transition-all",
+        "rounded-2xl text-[#0b172a] transition-all",
         variant === "glass" && "glass-surface",
         variant === "solid" && "glass-card-inner",
         variant === "subtle" && "bg-slate-50/75 border border-slate-200/60",

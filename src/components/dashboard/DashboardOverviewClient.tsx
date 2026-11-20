@@ -27,22 +27,17 @@ export interface DashboardEvaluationSummary {
 interface DashboardOverviewClientProps {
   profile: ProfileRow;
   completion: ProfileCompletionSummary;
-  email?: string;
   evaluation?: DashboardEvaluationSummary;
 }
 
 export function DashboardOverviewClient({
   profile,
   completion,
-  email,
   evaluation,
 }: DashboardOverviewClientProps) {
   const { t } = useLanguage();
 
-  const displayName =
-    profile.full_name?.trim() ||
-    email?.split("@")[0] ||
-    t.dashboardShell.defaultCitizenName;
+  const displayName = profile.full_name?.trim();
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
@@ -55,7 +50,9 @@ export function DashboardOverviewClient({
               <span>{t.nav.dashboard}</span>
             </Badge>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#0b172a]">
-              {t.dashboardShell.welcomePrefix} {displayName}
+              {displayName
+                ? `${t.dashboardShell.welcomePrefix} ${displayName}`
+                : t.dashboardShell.welcomeToSchemeAlly}
             </h1>
             <p className="text-sm text-slate-600">
               {t.dashboardShell.subtitle}

@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from "react";
 import {
   Compass,
+  ChevronDown,
   Filter,
   RotateCcw,
   Search,
@@ -52,6 +53,7 @@ export function SchemeCatalogClient({
   );
   const [selectedAudience, setSelectedAudience] =
     useState<TargetAudienceFilter>(initialFilters.audience);
+  const [sortOrder, setSortOrder] = useState<"name" | "recent">("name");
 
   const hasActiveFilters =
     searchQuery.trim().length > 0 ||
@@ -76,6 +78,23 @@ export function SchemeCatalogClient({
     selectedState,
     selectedAudience,
   ]);
+
+  const sortedSchemes = useMemo(
+    () =>
+      [...filteredSchemes].sort((a, b) => {
+        if (sortOrder === "recent") {
+          const dateOrder = (b.last_verified_at ?? "").localeCompare(
+            a.last_verified_at ?? ""
+          );
+          if (dateOrder !== 0) return dateOrder;
+        }
+
+        const nameA = isTa ? a.name_ta : a.name_en;
+        const nameB = isTa ? b.name_ta : b.name_en;
+        return nameA.localeCompare(nameB, isTa ? "ta-IN" : "en-IN");
+      }),
+    [filteredSchemes, isTa, sortOrder]
+  );
 
   const handleResetFilters = () => {
     setSearchQuery("");
@@ -227,58 +246,70 @@ export function SchemeCatalogClient({
           </div>
         </div>
 
-        {/* Audience & State Coverage Secondary Filters */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-3 border-t border-slate-200/70">
-          <div className="space-y-1.5">
-            <label
-              htmlFor="discover-audience-filter"
-              className="block text-xs font-bold text-slate-600"
-            >
-              {t.discoverPage.filters.audienceLabel}
-            </label>
-            <select
-              id="discover-audience-filter"
-              value={selectedAudience}
-              onChange={(e) =>
-                setSelectedAudience(e.target.value as TargetAudienceFilter)
-              }
-              className="flex h-10 w-full rounded-xl border border-slate-200/90 bg-white/95 px-3 py-2 text-xs font-semibold text-[#0b172a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e8a4f]"
-            >
-              <option value="all">{t.discoverPage.filters.audienceAll}</option>
-              {TARGET_AUDIENCE_OPTIONS.map((aud) => (
-                <option key={aud} value={aud}>
-                  {t.discoverPage.filters.audiences[aud]}
-                </option>
-              ))}
-            </select>
-          </div>
+        <details className="group border-t border-slate-200/70 pt-3">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-1 py-2 text-sm font-semibold text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91] [&::-webkit-details-marker]:hidden">
+            <span>{t.discoverPage.filters.advancedFilters}</span>
+            <ChevronDown
+              className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180"
+              aria-hidden="true"
+            />
+          </summary>
+          <div className="grid grid-cols-1 gap-4 pt-3 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <label
+                htmlFor="discover-audience-filter"
+                className="block text-xs font-bold text-slate-600"
+              >
+                {t.discoverPage.filters.audienceLabel}
+              </label>
+              <select
+                id="discover-audience-filter"
+                value={selectedAudience}
+                onChange={(e) =>
+                  setSelectedAudience(e.target.value as TargetAudienceFilter)
+                }
+                className="flex h-10 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-2 text-xs font-semibold text-[#0b172a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
+              >
+                <option value="all">{t.discoverPage.filters.audienceAll}</option>
+                {TARGET_AUDIENCE_OPTIONS.map((aud) => (
+                  <option key={aud} value={aud}>
+                    {t.discoverPage.filters.audiences[aud]}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          <div className="space-y-1.5">
-            <label
-              htmlFor="discover-state-filter"
-              className="block text-xs font-bold text-slate-600"
-            >
-              {t.discoverPage.filters.stateLabel}
-            </label>
-            <select
-              id="discover-state-filter"
-              value={selectedState}
-              onChange={(e) =>
-                setSelectedState(e.target.value as StateCoverageFilter)
-              }
-              className="flex h-10 w-full rounded-xl border border-slate-200/90 bg-white/95 px-3 py-2 text-xs font-semibold text-[#0b172a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e8a4f]"
-            >
-              <option value="all">{t.discoverPage.filters.stateAll}</option>
-              <option value="TN">{t.discoverPage.filters.stateTN}</option>
-              <option value="ALL">{t.discoverPage.filters.statePanIndia}</option>
-            </select>
+            <div className="space-y-1.5">
+              <label
+                htmlFor="discover-state-filter"
+                className="block text-xs font-bold text-slate-600"
+              >
+                {t.discoverPage.filters.stateLabel}
+              </label>
+              <select
+                id="discover-state-filter"
+                value={selectedState}
+                onChange={(e) =>
+                  setSelectedState(e.target.value as StateCoverageFilter)
+                }
+                className="flex h-10 w-full rounded-xl border border-slate-200/90 bg-white px-3 py-2 text-xs font-semibold text-[#0b172a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
+              >
+                <option value="all">{t.discoverPage.filters.stateAll}</option>
+                <option value="TN">{t.discoverPage.filters.stateTN}</option>
+                <option value="ALL">{t.discoverPage.filters.statePanIndia}</option>
+              </select>
+            </div>
           </div>
-        </div>
+        </details>
       </Card>
 
       {/* Results Count Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-xs sm:text-sm font-semibold text-slate-700">
+        <p
+          className="text-xs sm:text-sm font-semibold text-slate-700"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           {t.discoverPage.resultsSummary.showing}{" "}
           <span className="font-extrabold text-[#0b172a]">
             {filteredSchemes.length}
@@ -290,17 +321,36 @@ export function SchemeCatalogClient({
           {t.discoverPage.resultsSummary.verifiedSchemes}
         </p>
 
-        {hasActiveFilters && (
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            onClick={handleResetFilters}
+        <div className="flex flex-wrap items-center gap-3">
+          <label
+            htmlFor="discover-sort"
+            className="text-xs font-semibold text-slate-600"
           >
-            <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-            <span>{t.discoverPage.clearAllFilters}</span>
-          </Button>
-        )}
+            {t.discoverPage.sortLabel}
+          </label>
+          <select
+            id="discover-sort"
+            value={sortOrder}
+            onChange={(event) =>
+              setSortOrder(event.target.value === "recent" ? "recent" : "name")
+            }
+            className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-xs font-semibold text-[#0b172a] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
+          >
+            <option value="name">{t.discoverPage.sortByName}</option>
+            <option value="recent">{t.discoverPage.sortByRecent}</option>
+          </select>
+          {hasActiveFilters && (
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={handleResetFilters}
+            >
+              <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+              <span>{t.discoverPage.clearAllFilters}</span>
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Scheme Cards Grid or Empty Filter State */}
@@ -309,7 +359,7 @@ export function SchemeCatalogClient({
           data-testid="scheme-catalogue-grid"
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {filteredSchemes.map((scheme) => (
+          {sortedSchemes.map((scheme) => (
             <SchemeCard key={scheme.id} scheme={scheme} />
           ))}
         </div>

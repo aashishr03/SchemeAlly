@@ -778,6 +778,28 @@ describe("Phase 5 — DashboardOverviewClient", () => {
     ]
   );
 
+  it("uses a saved full name or a generic welcome, never the email address", () => {
+    const { unmount } = renderWithLanguage(
+      <DashboardOverviewClient profile={profile} completion={completion} />
+    );
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Welcome, Test Citizen"
+    );
+
+    unmount();
+    const unnamedProfile = profileRow({ full_name: null });
+    renderWithLanguage(
+      <DashboardOverviewClient
+        profile={unnamedProfile}
+        completion={calculateProfileCompletion(unnamedProfile)}
+      />
+    );
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Welcome to SchemeAlly"
+    );
+    expect(screen.queryByText(/@/)).not.toBeInTheDocument();
+  });
+
   it("shows real outcome counts and top matches (no hardcoded placeholders)", () => {
     renderWithLanguage(
       <DashboardOverviewClient

@@ -21,10 +21,27 @@ export default function SavedSchemesPage() {
   if (isLoading) {
     return (
       <div
-        className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
+        className="mx-auto max-w-7xl space-y-5 px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
         role="status"
+        aria-busy="true"
       >
-        <p className="text-sm font-medium text-slate-600">{text.loading}</p>
+        <p className="sr-only text-sm font-medium text-slate-600">
+          {text.loading}
+        </p>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2" aria-hidden="true">
+          {[0, 1, 2, 3].map((item) => (
+            <Card
+              key={item}
+              variant="solid"
+              className="space-y-4 p-5 sm:p-6"
+            >
+              <div className="h-5 w-28 animate-pulse rounded-full bg-slate-200" />
+              <div className="h-6 w-3/4 animate-pulse rounded bg-slate-200" />
+              <div className="h-4 w-full animate-pulse rounded bg-slate-100" />
+              <div className="h-4 w-5/6 animate-pulse rounded bg-slate-100" />
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }

@@ -133,6 +133,7 @@ export function OpportunitiesClient({
       <section aria-label={text.title} className="space-y-5">
         <div
           className="flex flex-wrap gap-2"
+          role="group"
           aria-label={isTa ? "வடிகட்டி" : "Filter opportunities by outcome"}
         >
           {OUTCOME_FILTERS.map(({ key, labelKey, icon: Icon }) => {

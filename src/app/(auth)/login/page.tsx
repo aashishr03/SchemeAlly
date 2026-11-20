@@ -1,9 +1,9 @@
 "use client";
 
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertCircle, ArrowRight, Lock } from "lucide-react";
+import { AlertCircle, ArrowRight, Eye, EyeOff, Lock } from "lucide-react";
 import { useLanguage } from "@/components/layout/LanguageProvider";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +11,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createBrowserSupabaseClient } from "@/infrastructure/supabase/client";
-import { LoginInputSchema, sanitizeRedirectPath } from "@/services/auth/schema";
+import {
+  ForgotPasswordInputSchema,
+  LoginInputSchema,
+  sanitizeRedirectPath,
+} from "@/services/auth/schema";
 
 function LoginFormContent() {
   const { t } = useLanguage();
@@ -22,14 +26,64 @@ function LoginFormContent() {
     searchParams?.get("next"),
     "/dashboard"
   );
+  const search = searchParams?.toString() ?? "";
   const callbackError = searchParams?.get("error") === "auth_callback_failed";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(
     callbackError ? t.auth.login.callbackError : null
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showResendConfirmation] = useState(callbackError);
+  const [isResendingConfirmation, setIsResendingConfirmation] =
+    useState(false);
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!callbackError) return;
+
+    const params = new URLSearchParams(search);
+    params.delete("error");
+    const query = params.toString();
+    router.replace(query ? `/login?${query}` : "/login");
+  }, [callbackError, router, search]);
+
+  const handleResendConfirmation = async () => {
+    setErrorMessage(null);
+    setResendMessage(null);
+
+    const parsed = ForgotPasswordInputSchema.safeParse({ email });
+    if (!parsed.success) {
+      setErrorMessage(parsed.error.issues[0]?.message ?? "Invalid email.");
+      return;
+    }
+
+    setIsResendingConfirmation(true);
+    try {
+      const supabase = createBrowserSupabaseClient();
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email: parsed.data.email,
+      });
+
+      if (error) {
+        setErrorMessage(error.message);
+        return;
+      }
+
+      setResendMessage(t.auth.login.confirmationResent);
+    } catch (err) {
+      setErrorMessage(
+        err instanceof Error
+          ? err.message
+          : "Unable to resend the confirmation email."
+      );
+    } finally {
+      setIsResendingConfirmation(false);
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -115,16 +169,33 @@ function LoginFormContent() {
               {t.auth.login.forgotPasswordLink}
             </Link>
           </div>
-          <Input
-            id="login-password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            required
-            placeholder={t.auth.login.passwordPlaceholder}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="relative">
+            <Input
+              id="login-password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              placeholder={t.auth.login.passwordPlaceholder}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="pr-12"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((visible) => !visible)}
+              aria-label={
+                showPassword ? t.auth.hidePassword : t.auth.showPassword
+              }
+              className="absolute right-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-[#163d68] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" aria-hidden="true" />
+              ) : (
+                <Eye className="h-4 w-4" aria-hidden="true" />
+              )}
+            </button>
+          </div>
         </div>
 
         <Button
@@ -141,6 +212,26 @@ function LoginFormContent() {
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Button>
       </form>
+
+      {showResendConfirmation && (
+        <div className="space-y-2 text-center">
+          <button
+            type="button"
+            onClick={handleResendConfirmation}
+            disabled={isResendingConfirmation}
+            className="text-xs font-semibold text-[#0e8a4f] hover:underline disabled:opacity-60"
+          >
+            {isResendingConfirmation
+              ? t.auth.login.resendingConfirmation
+              : t.auth.login.resendConfirmation}
+          </button>
+          {resendMessage && (
+            <p role="status" className="text-xs text-[#0b7241]">
+              {resendMessage}
+            </p>
+          )}
+        </div>
+      )}
 
       <div className="pt-4 border-t border-slate-200/70 text-center text-xs text-slate-600">
         <span>{t.auth.login.noAccountPrompt} </span>

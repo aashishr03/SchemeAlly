@@ -275,7 +275,11 @@
       "submittingButton": "Signing in...",
       "noAccountPrompt": "Don't have a SchemeAlly account?",
       "registerLink": "Create citizen account",
-      "callbackError": "Authentication link expired or could not be verified. Please sign in or request a new link."
+      "callbackError": "We couldn't complete sign-in from that verification link. If your email is already verified, sign in; otherwise request a new confirmation email.",
+      "resendConfirmation": "Resend confirmation email",
+      "resendingConfirmation": "Sending confirmation email...",
+      "confirmationResent": "If this email has an unverified account, a new confirmation email is on its way.",
+      "emailVerifiedSuccess": "Email verified successfully. Your account is ready."
     },
     "register": {
       "badge": "Citizen Registration",
@@ -432,7 +436,7 @@
   },
   "dashboardShell": {
     "welcomePrefix": "Welcome,",
-    "defaultCitizenName": "Citizen",
+    "welcomeToSchemeAlly": "Welcome to SchemeAlly",
     "subtitle": "Your personalized government benefit preparation workspace",
     "profileCardTitle": "Eligibility Profile Status",
     "updateProfileCta": "Update Eligibility Profile",

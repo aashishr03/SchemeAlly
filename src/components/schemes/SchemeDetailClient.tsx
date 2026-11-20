@@ -14,12 +14,10 @@ import {
   Info,
   Landmark,
   ListChecks,
-  LogIn,
   ShieldAlert,
   ShieldCheck,
   Sparkles,
   UserCheck,
-  UserPlus,
   XCircle,
 } from "lucide-react";
 import { useLanguage } from "@/components/layout/LanguageProvider";
@@ -268,6 +266,115 @@ export function SchemeDetailClient({
         </div>
       </Card>
 
+      {activeEvaluation && (
+        <div
+          role="status"
+          data-testid="scheme-evaluation-summary"
+          className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <span className="text-sm font-bold text-slate-700">
+              {t.schemeDetail.sections.yourEvaluationTitle}
+            </span>
+            <Badge
+              variant={
+                activeEvaluation.outcome === "ELIGIBLE"
+                  ? "emeraldSoft"
+                  : activeEvaluation.outcome === "POTENTIAL_MATCH"
+                    ? "amberSoft"
+                    : "outline"
+              }
+              className={
+                activeEvaluation.outcome === "NOT_ELIGIBLE"
+                  ? "border-rose-200 bg-rose-50 text-rose-800"
+                  : activeEvaluation.outcome === "INSUFFICIENT_INFORMATION"
+                    ? "border-slate-300 bg-slate-100 text-slate-800"
+                    : undefined
+              }
+            >
+              {isTa
+                ? activeEvaluation.outcomeTitle_ta
+                : activeEvaluation.outcomeTitle_en}
+            </Badge>
+            <span className="min-w-0 text-sm text-slate-600">
+              {isTa
+                ? activeEvaluation.outcomeDescription_ta
+                : activeEvaluation.outcomeDescription_en}
+            </span>
+          </div>
+          <a
+            href="#eligibility"
+            className="shrink-0 text-sm font-semibold text-[#245b91] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
+          >
+            {t.schemeDetail.sections.eligibilityTitle}
+          </a>
+        </div>
+      )}
+      {!activeEvaluation && isUnauthenticatedVisitor && (
+        <div
+          data-testid="scheme-unauthenticated-evaluation-prompt"
+          className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div className="space-y-1">
+            <h2 className="text-sm font-bold text-[#0b172a]">
+              {t.schemeDetail.sections.signInToEvaluateTitle}
+            </h2>
+            <p className="text-sm leading-relaxed text-slate-600">
+              {t.schemeDetail.sections.signInToEvaluateDescription}
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-2">
+            <Button asChild variant="emerald" size="sm">
+              <Link
+                href={`/login?next=${encodeURIComponent(schemeDetailHref)}`}
+              >
+                {t.schemeDetail.sections.signInToEvaluateCta}
+              </Link>
+            </Button>
+            <Button asChild variant="secondary" size="sm">
+              <Link href="/register">
+                {t.schemeDetail.sections.registerToEvaluateCta}
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <nav
+        aria-label={t.schemeDetail.sections.sectionNavigationLabel}
+        className="sticky top-[5.5rem] z-30 -mx-1 overflow-x-auto rounded-xl border border-slate-200 bg-white/95 p-2 shadow-sm backdrop-blur-sm"
+      >
+        <ul className="flex min-w-max items-center gap-1">
+          {[
+            {
+              href: "#eligibility",
+              label: t.schemeDetail.sections.eligibilityTitle,
+            },
+            {
+              href: "#documents",
+              label: t.schemeDetail.sections.documentsTitle,
+            },
+            {
+              href: "#application",
+              label: t.schemeDetail.sections.stepsTitle,
+            },
+            {
+              href: "#sources",
+              label: t.schemeDetail.sections.sourcesTitle,
+            },
+          ].map(({ href, label }) => (
+            <li key={href}>
+              <a
+                href={href}
+                className="inline-flex min-h-10 items-center rounded-lg px-3 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-100 hover:text-[#163d68] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
       {/* Benefits & Overview Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card
@@ -295,7 +402,11 @@ export function SchemeDetailClient({
       </div>
 
       {/* Structured Eligibility Conditions Card */}
-      <Card variant="glass" className="p-6 sm:p-8 space-y-6">
+      <Card
+        id="eligibility"
+        variant="glass"
+        className="scroll-mt-28 p-6 sm:p-8 space-y-6"
+      >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -319,39 +430,6 @@ export function SchemeDetailClient({
             </Badge>
           )}
         </div>
-
-        {/* Unauthenticated Visitor Prompt */}
-        {isUnauthenticatedVisitor && (
-          <div
-            data-testid="scheme-unauthenticated-evaluation-prompt"
-            className="rounded-2xl bg-slate-50/95 border border-slate-200/90 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-          >
-            <div className="space-y-1">
-              <h3 className="text-sm font-extrabold text-[#0b172a]">
-                {t.schemeDetail.sections.signInToEvaluateTitle}
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                {t.schemeDetail.sections.signInToEvaluateDescription}
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-              <Button asChild variant="emerald" size="sm">
-                <Link
-                  href={`/login?next=${encodeURIComponent(schemeDetailHref)}`}
-                >
-                  <LogIn className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>{t.schemeDetail.sections.signInToEvaluateCta}</span>
-                </Link>
-              </Button>
-              <Button asChild variant="secondary" size="sm">
-                <Link href="/register">
-                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span>{t.schemeDetail.sections.registerToEvaluateCta}</span>
-                </Link>
-              </Button>
-            </div>
-          </div>
-        )}
 
         {/* Live Profile Evaluation Banner & Breakdown (when profile or evaluation is present) */}
         {activeEvaluation && (
@@ -678,7 +756,11 @@ export function SchemeDetailClient({
       </Card>
 
       {/* Required Documents Checklist Card */}
-      <Card variant="glass" className="p-6 sm:p-8 space-y-5">
+      <Card
+        id="documents"
+        variant="glass"
+        className="scroll-mt-28 p-6 sm:p-8 space-y-5"
+      >
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <FileCheck2
@@ -747,7 +829,11 @@ export function SchemeDetailClient({
       </Card>
 
       {/* Step-by-Step Application Procedure Card */}
-      <Card variant="glass" className="p-6 sm:p-8 space-y-5">
+      <Card
+        id="application"
+        variant="glass"
+        className="scroll-mt-28 p-6 sm:p-8 space-y-5"
+      >
         <div className="flex items-center gap-2">
           <ListChecks className="h-5 w-5 text-[#0e8a4f]" aria-hidden="true" />
           <h2 className="text-xl font-extrabold text-[#0b172a]">
@@ -796,7 +882,11 @@ export function SchemeDetailClient({
       </Card>
 
       {/* Official Government Sources & Verification Record */}
-      <Card variant="glass" className="p-6 sm:p-8 space-y-4">
+      <Card
+        id="sources"
+        variant="glass"
+        className="scroll-mt-28 p-6 sm:p-8 space-y-4"
+      >
         <div className="flex items-center gap-2">
           <ShieldCheck
             className="h-5 w-5 text-[#0e8a4f]"

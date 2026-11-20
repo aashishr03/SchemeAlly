@@ -33,6 +33,7 @@ import type { PreferredLanguage } from "@/types/database";
 export interface CitizenProfileFormProps {
   initialProfile: ProfileRow;
   userEmail?: string;
+  emailVerified?: boolean;
 }
 
 function booleanToSelectValue(val: boolean | null | undefined): string {
@@ -50,6 +51,7 @@ function selectValueToBoolean(val: string): boolean | null {
 export function CitizenProfileForm({
   initialProfile,
   userEmail,
+  emailVerified = false,
 }: CitizenProfileFormProps) {
   const { locale, setLocale, t } = useLanguage();
   const router = useRouter();
@@ -59,9 +61,7 @@ export function CitizenProfileForm({
     initialProfile.date_of_birth ?? ""
   );
   const [gender, setGender] = useState(initialProfile.gender ?? "");
-  const [stateName, setStateName] = useState(
-    initialProfile.state ?? "Tamil Nadu"
-  );
+  const [stateName, setStateName] = useState(initialProfile.state ?? "");
   const [district, setDistrict] = useState(initialProfile.district ?? "");
   const [occupation, setOccupation] = useState(initialProfile.occupation ?? "");
   const [educationLevel, setEducationLevel] = useState(
@@ -109,7 +109,9 @@ export function CitizenProfileForm({
 
   const [isSaving, setIsSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(
+    emailVerified ? t.auth.login.emailVerifiedSuccess : null
+  );
 
   const liveDraftProfile = useMemo<Partial<ProfileRow>>(
     () => ({
@@ -260,6 +262,9 @@ export function CitizenProfileForm({
           />
           <span>{t.profilePage.privacyBanner}</span>
         </div>
+        <p className="text-sm leading-relaxed text-slate-600">
+          {t.profilePage.completionGuidance}
+        </p>
       </Card>
 
       {errorMessage && (

@@ -69,6 +69,17 @@ describe("Supabase middleware session behavior", () => {
     expect(response.headers.get("cache-control")).toContain("no-store");
   });
 
+  it("allows a signed-out email callback to reach its route handler", async () => {
+    const response = await updateSupabaseSession(
+      new NextRequest(
+        "http://localhost:3000/auth/callback?code=callback-code"
+      )
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("location")).toBeNull();
+  });
+
   it("preserves refreshed session cookies in guest-route redirects and honors next", async () => {
     mocks.user = { id: "citizen-a" };
     mocks.refreshCookies = true;

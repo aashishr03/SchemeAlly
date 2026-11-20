@@ -6,7 +6,12 @@ import { CitizenProfileForm } from "@/components/profile/CitizenProfileForm";
 
 export const dynamic = "force-dynamic";
 
-export default async function CitizenProfilePage() {
+export default async function CitizenProfilePage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const params = await searchParams;
   let profileData;
   try {
     profileData = await getAuthenticatedCitizenProfile();
@@ -22,6 +27,7 @@ export default async function CitizenProfilePage() {
       <CitizenProfileForm
         initialProfile={profileData.profile}
         userEmail={profileData.email}
+        emailVerified={params.email_verified === "1"}
       />
     </div>
   );

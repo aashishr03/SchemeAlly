@@ -6,6 +6,7 @@ import {
   AlertCircle,
   ArrowRight,
   CheckCircle2,
+  ChevronDown,
   ExternalLink,
   Info,
   UserCheck,
@@ -77,6 +78,13 @@ export function SchemeEvaluationCard({
         <Badge
           variant={outcomeBadgeVariant(evaluation.outcome)}
           data-testid="opportunity-outcome-badge"
+          className={
+            evaluation.outcome === "NOT_ELIGIBLE"
+              ? "border-rose-200 bg-rose-50 text-rose-800"
+              : evaluation.outcome === "INSUFFICIENT_INFORMATION"
+                ? "border-slate-300 bg-slate-100 text-slate-800"
+                : undefined
+          }
         >
           {isTa ? evaluation.outcomeTitle_ta : evaluation.outcomeTitle_en}
         </Badge>
@@ -196,9 +204,18 @@ function ReasonList({
   items: { id: string; text: string }[];
 }) {
   return (
-    <div className="rounded-xl bg-white/90 border border-slate-200/80 p-3.5 space-y-2">
-      <p className={`text-xs font-bold ${tone}`}>{heading}</p>
-      <ul className="space-y-1.5">
+    <details
+      open
+      className="group rounded-xl border border-slate-200/80 bg-white/90 p-3.5"
+    >
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91] [&::-webkit-details-marker]:hidden">
+        <span className={`text-xs font-bold ${tone}`}>{heading}</span>
+        <ChevronDown
+          className="h-4 w-4 shrink-0 text-slate-500 transition-transform group-open:rotate-180"
+          aria-hidden="true"
+        />
+      </summary>
+      <ul className="mt-2 space-y-1.5">
         {items.map((item) => (
           <li
             key={item.id}
@@ -209,6 +226,6 @@ function ReasonList({
           </li>
         ))}
       </ul>
-    </div>
+    </details>
   );
 }

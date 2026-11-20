@@ -244,7 +244,7 @@ export function AssistantChat() {
         </div>
 
         <div
-          className="max-h-[58vh] min-h-[360px] space-y-5 overflow-y-auto px-4 py-6 sm:px-8"
+          className="max-h-[58vh] min-h-[260px] space-y-5 overflow-y-auto px-4 py-6 sm:px-8"
           aria-live="polite"
           aria-label={text.title}
         >

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Globe, LogOut, Menu, User as UserIcon, X } from "lucide-react";
@@ -17,8 +17,21 @@ export function Navbar() {
   const { locale, toggleLocale, t } = useLanguage();
   const { user } = useAuthSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuPathname, setMobileMenuPathname] = useState(pathname);
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [signOutError, setSignOutError] = useState(false);
+  const isMobileMenuOpen =
+    mobileMenuOpen && mobileMenuPathname === pathname;
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [isMobileMenuOpen]);
 
   const handleSignOut = async () => {
     setIsSigningOut(true);
@@ -74,7 +87,7 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl">
         <nav
           aria-label="Main navigation"
-          className="flex items-center justify-between rounded-full bg-white/88 backdrop-blur-md border border-white/95 shadow-[0_8px_30px_-8px_rgba(15,23,42,0.08)] px-3.5 sm:px-5 py-2.5"
+          className="flex items-center justify-between rounded-2xl bg-white border border-slate-200 shadow-sm px-3.5 sm:px-5 py-2.5"
         >
           {/* Brand Logo */}
           <Link
@@ -193,12 +206,22 @@ export function Navbar() {
             {/* Mobile Hamburger Toggle */}
             <button
               type="button"
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
-              aria-expanded={mobileMenuOpen}
-              aria-label={mobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
-              className="inline-flex lg:hidden h-9 w-9 items-center justify-center rounded-full border border-slate-200/80 bg-white/90 text-[#0b172a] hover:bg-white transition-colors"
+              onClick={() => {
+                if (isMobileMenuOpen) {
+                  setMobileMenuOpen(false);
+                } else {
+                  setMobileMenuPathname(pathname);
+                  setMobileMenuOpen(true);
+                }
+              }}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls={
+                isMobileMenuOpen ? "mobile-primary-navigation" : undefined
+              }
+              aria-label={isMobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
+              className="inline-flex lg:hidden h-10 w-10 items-center justify-center rounded-full border border-slate-200/80 bg-white text-[#0b172a] hover:bg-slate-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
             >
-              {mobileMenuOpen ? (
+              {isMobileMenuOpen ? (
                 <X className="h-4 w-4" aria-hidden="true" />
               ) : (
                 <Menu className="h-4 w-4" aria-hidden="true" />
@@ -208,8 +231,12 @@ export function Navbar() {
         </nav>
 
         {/* Responsive Mobile / Tablet Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div className="mt-2 rounded-3xl bg-white/95 backdrop-blur-lg border border-white p-4 shadow-lg lg:hidden">
+        {isMobileMenuOpen && (
+          <nav
+            id="mobile-primary-navigation"
+            aria-label={t.nav.mobileNavigationLabel}
+            className="mt-2 rounded-2xl bg-white border border-slate-200 p-3 shadow-lg lg:hidden"
+          >
             <div className="flex flex-col gap-1">
               {navItems.map((item) => {
                 const active = isActive(item.href);
@@ -220,7 +247,7 @@ export function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "rounded-2xl px-4 py-2.5 text-sm font-medium transition-colors",
+                      "rounded-xl px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]",
                       active
                         ? "bg-[#e6f6ee] text-[#0b7241] font-semibold"
                         : "text-slate-700 hover:bg-slate-100/80"
@@ -235,7 +262,7 @@ export function Navbar() {
                 <Link
                   href="/profile"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-2xl px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100/80"
+                  className="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
                 >
                   {user.displayName || user.email || t.nav.profile}
                 </Link>
@@ -275,7 +302,7 @@ export function Navbar() {
                 )}
               </div>
             </div>
-          </div>
+          </nav>
         )}
         {signOutError && (
           <p

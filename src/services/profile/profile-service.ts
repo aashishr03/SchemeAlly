@@ -19,6 +19,43 @@ export interface AuthenticatedCitizenProfileResult {
   completion: ProfileCompletionSummary;
 }
 
+export async function loadAuthenticatedCitizenProfile(
+  user: Awaited<ReturnType<typeof requireAuthenticatedServerUser>>,
+  supabase: AppSupabaseClient
+): Promise<AuthenticatedCitizenProfileResult> {
+  const repo = new ProfileRepository(supabase);
+  const metadataName =
+    typeof user.user_metadata?.full_name === "string"
+      ? user.user_metadata.full_name.trim()
+      : "";
+  const parsedMetadata = metadataName
+    ? CitizenProfileUpdateSchema.safeParse({ full_name: metadataName })
+    : null;
+  const metadataFullName =
+    parsedMetadata?.success && parsedMetadata.data.full_name
+      ? parsedMetadata.data.full_name
+      : null;
+
+  let profile = await repo.getByUserId(user.id);
+  if (!profile) {
+    profile = await repo.upsertByUserId(
+      user.id,
+      metadataFullName ? { full_name: metadataFullName } : {}
+    );
+  } else if (!profile.full_name?.trim() && metadataFullName) {
+    profile = await repo.updateByUserId(user.id, {
+      full_name: metadataFullName,
+    });
+  }
+
+  return {
+    userId: user.id,
+    email: user.email,
+    profile,
+    completion: calculateProfileCompletion(profile),
+  };
+}
+
 /**
  * Retrieves the authenticated citizen's profile using their verified server session.
  * Automatically initializes an empty profile row if one does not exist yet.
@@ -28,19 +65,7 @@ export async function getAuthenticatedCitizenProfile(
 ): Promise<AuthenticatedCitizenProfileResult> {
   const supabase = client ?? (await createServerSupabaseClient());
   const user = await requireAuthenticatedServerUser(supabase);
-  const repo = new ProfileRepository(supabase);
-
-  let profile = await repo.getByUserId(user.id);
-  if (!profile) {
-    profile = await repo.upsertByUserId(user.id, {});
-  }
-
-  return {
-    userId: user.id,
-    email: user.email,
-    profile,
-    completion: calculateProfileCompletion(profile),
-  };
+  return loadAuthenticatedCitizenProfile(user, supabase);
 }
 
 /**

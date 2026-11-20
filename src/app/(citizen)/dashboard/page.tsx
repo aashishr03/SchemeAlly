@@ -21,7 +21,6 @@ export default async function CitizenDashboardPage() {
     <DashboardOverviewClient
       profile={result.profile}
       completion={result.completion}
-      email={result.email}
       evaluation={{
         counts: result.counts,
         topEntries: result.entries

@@ -1,12 +1,15 @@
 import "server-only";
 import type { AppSupabaseClient } from "@/types/database";
-import { createServerSupabaseClient } from "@/infrastructure/supabase/server";
+import {
+  createServerSupabaseClient,
+  requireAuthenticatedServerUser,
+} from "@/infrastructure/supabase/server";
 import { SchemeRepository } from "@/infrastructure/repositories/scheme-repository";
 import {
   evaluateCatalogueForProfile,
   type CatalogueEvaluationSummary,
 } from "@/core/eligibility";
-import { getAuthenticatedCitizenProfile } from "@/services/profile/profile-service";
+import { loadAuthenticatedCitizenProfile } from "@/services/profile/profile-service";
 import type {
   ProfileCompletionSummary,
   ProfileRow,
@@ -103,10 +106,11 @@ export async function getCitizenSchemeEvaluations(
   client?: AppSupabaseClient
 ): Promise<CitizenSchemeEvaluationResult> {
   const supabase = client ?? (await createServerSupabaseClient());
-  const citizen = await getAuthenticatedCitizenProfile(supabase);
+  const user = await requireAuthenticatedServerUser(supabase);
   const repo = new SchemeRepository(supabase);
 
-  const [catalogue, rules] = await Promise.all([
+  const [citizen, catalogue, rules] = await Promise.all([
+    loadAuthenticatedCitizenProfile(user, supabase),
     repo.getCatalogue({}),
     repo.listActiveRules(),
   ]);

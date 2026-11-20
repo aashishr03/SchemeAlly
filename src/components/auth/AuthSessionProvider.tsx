@@ -73,6 +73,7 @@ export function AuthSessionProvider({
     clientSession?.serverUserId === (initialUser?.id ?? null)
       ? clientSession.user
       : initialUser;
+  const hasInitialUser = Boolean(initialUser);
   const isTransitioning =
     transitionTargetId !== null && initialUser?.id !== transitionTargetId;
 
@@ -128,12 +129,14 @@ export function AuthSessionProvider({
       applyUser(toAuthSessionUser(session?.user ?? null));
     });
 
-    const initialEventVersion = authEventVersion;
-    void supabase.auth.getUser().then(({ data, error }) => {
-      if (!active || authEventVersion !== initialEventVersion) return;
-      applyUser(error ? null : toAuthSessionUser(data.user));
-      setIsInitialized(true);
-    });
+    if (!hasInitialUser) {
+      const initialEventVersion = authEventVersion;
+      void supabase.auth.getUser().then(({ data, error }) => {
+        if (!active || authEventVersion !== initialEventVersion) return;
+        applyUser(error ? null : toAuthSessionUser(data.user));
+        setIsInitialized(true);
+      });
+    }
 
     const handlePageHide = (event: PageTransitionEvent) => {
       if (event.persisted && isProtectedCitizenRoute(pathnameRef.current ?? "")) {
@@ -183,7 +186,7 @@ export function AuthSessionProvider({
       window.removeEventListener("pagehide", handlePageHide);
       window.removeEventListener("pageshow", handlePageShow);
     };
-  }, [applyUser]);
+  }, [applyUser, hasInitialUser]);
 
   useEffect(() => {
     const currentPath = pathname ?? "/";

@@ -21,11 +21,13 @@ import {
   HandHeart,
   SlidersHorizontal,
   MessageSquareText,
+  Search,
 } from "lucide-react";
 import { useLanguage } from "@/components/layout/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { useAuthSession } from "@/components/auth/AuthSessionProvider";
 import type { ProfileCompletionSummary } from "@/services/profile/schema";
 
@@ -151,9 +153,9 @@ export default function LandingPage() {
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-12 space-y-16 sm:space-y-20">
       {/* 1. HERO SECTION (Modeled after Reference Screenshot 1) */}
       <section aria-labelledby="hero-heading" className="pt-2 sm:pt-4">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Left Hero Column */}
-          <div className="lg:col-span-7 space-y-6 pt-2">
+          <div className="lg:col-span-7 space-y-5 pt-2">
             <Badge variant="glass" className="px-4 py-1.5 text-xs font-semibold text-slate-700">
               <span
                 className="h-2 w-2 rounded-full bg-[#0e8a4f]"
@@ -164,7 +166,7 @@ export default function LandingPage() {
 
             <h1
               id="hero-heading"
-              className="text-4xl sm:text-6xl lg:text-[4.15rem] font-extrabold tracking-tight text-[#0b172a] leading-[1.06]"
+              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#0b172a] leading-[1.08]"
             >
               {t.hero.headlinePrefix}{" "}
               <span className="font-serif-accent italic font-semibold text-[#0e8a4f] block sm:inline">
@@ -189,6 +191,31 @@ export default function LandingPage() {
                 <Link href="/discover">{t.hero.secondaryCta}</Link>
               </Button>
             </div>
+
+            <form
+              action="/discover"
+              method="get"
+              role="search"
+              className="flex max-w-xl items-center gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm"
+            >
+              <Search
+                className="ml-2 h-4 w-4 shrink-0 text-slate-400"
+                aria-hidden="true"
+              />
+              <label className="sr-only" htmlFor="homepage-scheme-search">
+                {t.hero.searchLabel}
+              </label>
+              <Input
+                id="homepage-scheme-search"
+                name="q"
+                type="search"
+                placeholder={t.hero.searchPlaceholder}
+                className="h-10 min-w-0 border-0 bg-transparent px-2 shadow-none"
+              />
+              <Button type="submit" variant="default" size="sm">
+                {t.hero.searchSubmit}
+              </Button>
+            </form>
 
             {/* Process Flow Breadcrumb */}
             <div className="pt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-xs font-medium text-slate-500">
@@ -217,8 +244,13 @@ export default function LandingPage() {
                     {t.hero.workspacePreview.title}
                   </h2>
                 </div>
-                <Badge variant="emeraldSoft" className="shrink-0">
-                  {t.hero.workspacePreview.statusBadge}
+                <Badge
+                  variant={hasCompleteProfile ? "emeraldSoft" : "outline"}
+                  className="shrink-0"
+                >
+                  {hasCompleteProfile
+                    ? t.hero.workspacePreview.profileReadyStatus
+                    : t.hero.workspacePreview.statusBadge}
                 </Badge>
               </div>
 
@@ -230,7 +262,9 @@ export default function LandingPage() {
                       {t.hero.workspacePreview.readinessLabel}
                     </span>
                     <span className="text-slate-500">
-                      {t.hero.workspacePreview.readinessStatus}
+                      {hasCompleteProfile
+                        ? t.hero.workspacePreview.profileReadyReadinessStatus
+                        : t.hero.workspacePreview.readinessStatus}
                     </span>
                   </div>
                   {/* Segmented readiness bar indicator */}
@@ -353,7 +387,7 @@ export default function LandingPage() {
                 <Link
                   key={category.key}
                   href={`/discover?category=${category.key}`}
-                  className="group glass-card-inner rounded-2xl p-5 flex flex-col justify-between hover:border-[#0e8a4f]/40 hover:shadow-md transition-all"
+                  className="group glass-card-inner rounded-2xl p-5 flex flex-col justify-between transition-all hover:border-[#245b91]/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div

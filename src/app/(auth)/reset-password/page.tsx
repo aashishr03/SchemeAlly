@@ -2,7 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { AlertCircle, ArrowRight, CheckCircle2, KeyRound } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowRight,
+  CheckCircle2,
+  Eye,
+  EyeOff,
+  KeyRound,
+} from "lucide-react";
 import { useLanguage } from "@/components/layout/LanguageProvider";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +23,7 @@ export default function ResetPasswordPage() {
   const { t } = useLanguage();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -108,13 +116,32 @@ export default function ResetPasswordPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div className="space-y-1.5">
-            <Label htmlFor="reset-password">
-              {t.auth.resetPassword.passwordLabel}
-            </Label>
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="reset-password">
+                {t.auth.resetPassword.passwordLabel}
+              </Label>
+              <button
+                type="button"
+                onClick={() => setShowPassword((visible) => !visible)}
+                aria-label={
+                  showPassword ? t.auth.hidePassword : t.auth.showPassword
+                }
+                className="inline-flex min-h-8 items-center gap-1 rounded px-2 text-xs font-semibold text-[#245b91] hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#245b91]"
+              >
+                {showPassword ? (
+                  <EyeOff className="h-3.5 w-3.5" aria-hidden="true" />
+                ) : (
+                  <Eye className="h-3.5 w-3.5" aria-hidden="true" />
+                )}
+                <span>
+                  {showPassword ? t.auth.hidePassword : t.auth.showPassword}
+                </span>
+              </button>
+            </div>
             <Input
               id="reset-password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               autoComplete="new-password"
               required
               placeholder={t.auth.resetPassword.passwordPlaceholder}
@@ -130,7 +157,7 @@ export default function ResetPasswordPage() {
             <Input
               id="reset-confirm-password"
               name="confirmPassword"
-              type="password"
+              type={showPassword ? "text" : "password"}
               autoComplete="new-password"
               required
               placeholder={t.auth.resetPassword.confirmPasswordPlaceholder}

@@ -20,6 +20,7 @@ const mocks = vi.hoisted(() => ({
   getUser: vi.fn(),
   signOut: vi.fn(),
   signInWithPassword: vi.fn(),
+  resend: vi.fn(),
 }));
 
 vi.mock("next/navigation", () => ({
@@ -50,6 +51,7 @@ vi.mock("@/infrastructure/supabase/client", () => ({
       getUser: mocks.getUser,
       signOut: mocks.signOut,
       signInWithPassword: mocks.signInWithPassword,
+      resend: mocks.resend,
     },
   }),
 }));
@@ -113,6 +115,7 @@ describe("authentication session flow", () => {
     mocks.getUser.mockReturnValue(new Promise(() => {}));
     mocks.signOut.mockResolvedValue({ error: null });
     mocks.signInWithPassword.mockResolvedValue({ error: null });
+    mocks.resend.mockResolvedValue({ error: null });
     vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response({ savedSchemes: [] })));
     window.localStorage.clear();
     document.body.style.visibility = "";
@@ -133,6 +136,7 @@ describe("authentication session flow", () => {
   it("shows the current user's name and sign-out action when signed in", () => {
     renderWithSession(<Navbar />, authSessionUser(USER_A));
 
+    expect(mocks.getUser).not.toHaveBeenCalled();
     expect(screen.getByRole("link", { name: "My Profile" })).toHaveAttribute(
       "href",
       "/profile"
@@ -140,6 +144,39 @@ describe("authentication session flow", () => {
     expect(screen.getByText("Alice")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Sign out" })).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "Sign in" })).not.toBeInTheDocument();
+  });
+
+  it("shows a callback error once and removes the stale error query parameter", async () => {
+    mocks.pathname = "/login";
+    mocks.search = "error=auth_callback_failed&next=%2Fprofile";
+
+    renderWithSession(<LoginPage />);
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "We couldn't complete sign-in from that verification link."
+    );
+    expect(mocks.replace).toHaveBeenCalledWith("/login?next=%2Fprofile");
+  });
+
+  it("allows a user to request a new confirmation email after callback failure", async () => {
+    mocks.pathname = "/login";
+    mocks.search = "error=auth_callback_failed&next=%2Fprofile";
+
+    renderWithSession(<LoginPage />);
+    fireEvent.change(screen.getByLabelText("Email address"), {
+      target: { value: "citizen@example.test" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "Resend confirmation email" })
+    );
+
+    expect(mocks.resend).toHaveBeenCalledWith({
+      type: "signup",
+      email: "citizen@example.test",
+    });
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "If this email has an unverified account, a new confirmation email is on its way."
+    );
   });
 
   it("completes sign-in and replaces history with the intended destination", async () => {
@@ -151,6 +188,7 @@ describe("authentication session flow", () => {
     });
 
     renderWithSession(<LoginPage />);
+
     fireEvent.change(screen.getByLabelText("Email address"), {
       target: { value: USER_A.email },
     });
@@ -333,7 +371,7 @@ describe("authentication session flow", () => {
       await Promise.resolve();
     });
 
-    await waitFor(() => expect(mocks.getUser).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(mocks.getUser).toHaveBeenCalledTimes(1));
     expect(mocks.replace).toHaveBeenCalledWith(
       "/login?next=%2Fdashboard"
     );

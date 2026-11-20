@@ -261,6 +261,24 @@ describe("Phase 3 — Authentication & Citizen Profile Validation and Services",
     fetchSpy.mockRestore();
   });
 
+  it("shows a success status when the email-verification callback returns to the profile", () => {
+    render(
+      <LanguageProvider>
+        <CitizenProfileForm initialProfile={emptyProfile} emailVerified />
+      </LanguageProvider>
+    );
+
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Email verified successfully. Your account is ready."
+    );
+    expect(
+      screen.getAllByRole("link", { name: /Go to Dashboard/i })
+    ).toHaveLength(2);
+    expect(
+      screen.getAllByRole("link", { name: /Go to Dashboard/i })[0]
+    ).toHaveAttribute("href", "/dashboard");
+  });
+
   it("renders CitizenProfileForm, displays derived age, and submits validated updates to /api/profile", async () => {
     const initialProfile: ProfileRow = {
       id: "11111111-1111-4111-8111-111111111111",
